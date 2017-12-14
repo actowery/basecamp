@@ -5,9 +5,18 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //temp array of cmapgrounds before db is set up
 var camps = [
-    {name: "Salmon Creek", image: "https://farm1.staticflickr.com/732/32796623146_24b830c64c.jpg"},
-    {name: "Granite Hill", image: "https://farm4.staticflickr.com/3347/3445361564_d68d677d58.jpg"},
-    {name: "Mountain Goat's Rest", image: "https://farm9.staticflickr.com/8320/8034434969_1b942bdf2a.jpg"}
+    {name: "Salmon Creek", image: "https://farm3.staticflickr.com/2918/14003454933_966f43860f.jpg"},
+    {name: "Granite Hill", image: "https://farm3.staticflickr.com/2454/32025488833_b93439d1ec.jpg"},
+    {name: "Mountain Goat's Rest", image: "https://farm8.staticflickr.com/7238/13984176234_ef0c9649d2.jpg"},
+    {name: "Salmon Creek", image: "https://farm3.staticflickr.com/2918/14003454933_966f43860f.jpg"},
+    {name: "Granite Hill", image: "https://farm3.staticflickr.com/2454/32025488833_b93439d1ec.jpg"},
+    {name: "Mountain Goat's Rest", image: "https://farm8.staticflickr.com/7238/13984176234_ef0c9649d2.jpg"},
+    {name: "Salmon Creek", image: "https://farm3.staticflickr.com/2918/14003454933_966f43860f.jpg"},
+    {name: "Granite Hill", image: "https://farm3.staticflickr.com/2454/32025488833_b93439d1ec.jpg"},
+    {name: "Mountain Goat's Rest", image: "https://farm8.staticflickr.com/7238/13984176234_ef0c9649d2.jpg"},
+    {name: "Salmon Creek", image: "https://farm3.staticflickr.com/2918/14003454933_966f43860f.jpg"},
+    {name: "Granite Hill", image: "https://farm3.staticflickr.com/2454/32025488833_b93439d1ec.jpg"},
+    {name: "Mountain Goat's Rest", image: "https://farm8.staticflickr.com/7238/13984176234_ef0c9649d2.jpg"}
 ]
 
 app.set("view engine","ejs");
