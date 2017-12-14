@@ -1,0 +1,31 @@
+{
+  "name": "cihan_adrian_towery",
+  "version": "1.0.0",
+  "description": "yelp clone focused on ski hills and resorts",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actowery/basecamp.git"
+  },
+  "keywords": [
+    "yelp",
+    "ski",
+    "basecamp",
+    "base",
+    "camp",
+    "snowboard"
+  ],
+  "author": "cihan adrian towery",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/actowery/basecamp/issues"
+  },
+  "homepage": "https://github.com/actowery/basecamp#readme",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  }
+}
