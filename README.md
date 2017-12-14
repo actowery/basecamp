@@ -16,8 +16,3 @@ version control.
 
 
 
-
-Commits:
-1   2017-12-14      Got express loaded, add a basic landing page, create a
-                    page with a list of hills
-0   2017-12-14      First Commit
