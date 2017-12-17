@@ -8,44 +8,31 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 
 
-//schemas
+//schema will have additional components in the future
 var campSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    desc: String
 });
 
 var Camp = mongoose.model("Camp", campSchema);
-
-// Camp.create(
-//     {name: "Granite Hill", image: "https://farm3.staticflickr.com/2454/32025488833_b93439d1ec.jpg"},
-//     function(err,camp){
-//         if(err){
-//             console.log(err);
-//         } else{
-//             console.log("NEW CAMP: ");
-//             console.log(camp);
-//         }
-//     });
-
-
-
 
 app.get("/", function(req,res){
     res.render("landing");
 });
 
+//INDEX - Show all camp
 app.get("/camps", function(req,res){
     //get all camps from db
     Camp.find({},function(err, allCamps){
         if(err){
             console.log(err)
         } else{
-            res.render("camps",{camps:allCamps});
+            res.render("index",{camps:allCamps});
         }
     });
-//    res.render("camps",{camps:camps});
 });
-//REST convention
+//CREATE - add new camp to DB
 app.post("/camps", function(req,res){
     //get data and add to array
     var newCamp = req.body.camp;
@@ -59,9 +46,20 @@ app.post("/camps", function(req,res){
     });
 
 });
-
+//NEW - show form to create new camp
 app.get("/camps/new", function(req, res) {
    res.render("new"); 
+});
+//SHOW - info about a camp
+app.get("/camps/:id", function(req,res){
+    //get camp id
+    Camp.findById(req.params.id,function(err, camp){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("show", {camp:camp});
+        }
+    });
 });
 app.listen(process.env.PORT,process.env.IP, function(){
     console.log("baseCamp running");

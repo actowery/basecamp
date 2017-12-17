@@ -13,12 +13,15 @@
     <div class="row text-center" style="display:flex;flex-wrap:flex;">
         <% camps.forEach(function(camp) { %>
         <div class="col-md-3 col-sm-6" style="margin-bottom: 10px;">
-           <div class="img-thumbnail">
+            <div class="img-thumbnail">
                 <div>
-                  <img src="<%= camp.image %>" class="img-thumbnail  border-white" style="border: 0; padding:0;">
+                    <img src="<%= camp.image %>" class="img-thumbnail  border-white" style="border: 0; padding:0;">
                 </div>
                 <h4> <%= camp.name  %> </h4>
             </div>
+            <p>
+                <a href="/camps/<%= camp._id %>" class="btn btn-primary">More info</a>
+            </p>
         </div>
         <% }) %>
 
