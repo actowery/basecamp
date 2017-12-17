@@ -10,7 +10,7 @@
         ####################################################
                 Not really a registered Trademark
 
-This is a Yelp Clone that focuses on honing skills in RESTful API's, MEAN stack,
+This is a Yelp Clone that focuses on honing skills in RESTful conventions, API's, MEAN stack,
 and styling templates like bootstrap, along with getting comfortable with 
 version control.
 
