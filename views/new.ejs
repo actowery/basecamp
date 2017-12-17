@@ -3,18 +3,18 @@
 <div class="container">
     <h1 class="d-flex justify-content-center">Create a New Camp</h1>
         <div class="mx-auto" style="width: 30%;">
-            <form action="/camps " method="POST ">
-                <div class="form-group ">
-                    <input class="form-control " placeholder="Name" type="text " name="name " />
+            <form action="/camps" method="POST">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Name" type="text" name="camp[name]" required />
                 </div>
-                <div class="form-group ">
-                    <input class="form-control " placeholder="Image URL" type="text " name="image url " />
+                <div class="form-group">
+                    <input class="form-control" placeholder="Image URL" type="text" name="camp[image]" required />
                 </div>
-                <div class="form-group ">
-                    <button class="btn btn-lg btn-primary btn-block ">Submit!</button>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
                 </div>
              </form>
-         <a href="/camps ">Go Back</a>
+         <a href="/camps">Go Back</a>
       </div>
 
    </div>
