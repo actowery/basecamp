@@ -1,21 +1,18 @@
 var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
-    mongoose = require("mongoose");
+    mongoose = require("mongoose"),
+    Camp = require("./models/camp"),
+    seedDB = require("./seeds");
+    
 
+seedDB();
 mongoose.connect("mongodb://localhost/basecamp");   
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 
 
-//schema will have additional components in the future
-var campSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    desc: String
-});
 
-var Camp = mongoose.model("Camp", campSchema);
 
 app.get("/", function(req,res){
     res.render("landing");
@@ -64,3 +61,4 @@ app.get("/camps/:id", function(req,res){
 app.listen(process.env.PORT,process.env.IP, function(){
     console.log("baseCamp running");
 });
+ 
