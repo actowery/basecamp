@@ -22,9 +22,9 @@ app.get("/camps", function(req,res){
     //get all camps from db
     Camp.find({},function(err, allCamps){
         if(err){
-            console.log(err)
+            console.log(err);
         } else{
-            res.render("index",{camps:allCamps});
+            res.render("camps/index",{camps:allCamps});
         }
     });
 });
@@ -42,9 +42,9 @@ app.post("/camps", function(req,res){
     });
 
 });
-//NEW - show form to create new camp
+//NEW CAMP - show form to create new camp
 app.get("/camps/new", function(req, res) {
-   res.render("new"); 
+   res.render("camps/new"); 
 });
 //SHOW - info about a camp
 app.get("/camps/:id", function(req,res){
@@ -54,11 +54,47 @@ app.get("/camps/:id", function(req,res){
             console.log(err);
         } else {
             console.log(camp);
-            res.render("show", {camp:camp});
+            res.render("camps/show", {camp:camp});
         }
     });
 });
-app.listen(process.env.PORT,process.env.IP, function(){
-    console.log("baseCamp running");
+
+//=================
+//COMMENTS ROUTES
+//=================
+
+//NEW COMMENT - show form to create new camp comment
+app.get("/camps/:id/comments/new", function(req, res) {
+    Camp.findById(req.params.id, function(err, camp){
+        if(err){
+            console.loge(err);
+        } else {
+            res.render("comments/new", {camp:camp});
+        }
+    });
 });
- 
+
+//CREATE COMMENT - add new comment to camp DB
+app.post("/camps/:id/comments", function(req,res){
+    //get data and add to array
+    Camp.findById(req.params.id, function(err, camp) {
+        if(err){
+            console.log(err);
+            res.redirect("/camps");
+        } else {
+            Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    console.log(err);
+                } else {
+                    camp.comments.push(comment);
+                    camp.save();
+                    res.redirect("/camps/"+camp._id);
+                }
+            });
+        }
+    });
+
+});
+app.listen(process.env.PORT, process.env.IP, function(){
+   console.log("baseCamp Server Has Started!");
+});
