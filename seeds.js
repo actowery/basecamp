@@ -31,14 +31,18 @@ function seedDB(){
                     console.log(err);
                 } else {
                     console.log("added");
-                    comment.create(
+                    Comment.create(
                         {
                             text:"This place is great!",
                             author: "Homer"
                         }, function(err, comment) {
-                            if(err){console.log(err);}
-                            camp.comments.push(comment);
-                            camp.save();
+                            if(err){
+                                console.log(err);
+                            } else {
+                            data.comments.push(comment);
+                            data.save();
+                            console.log("Created new comment");
+                            }
                         });
                 }
             });

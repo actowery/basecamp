@@ -3,15 +3,14 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     Camp = require("./models/camp"),
+    Comment = require("./models/comment"),
     seedDB = require("./seeds");
     
 
-seedDB();
 mongoose.connect("mongodb://localhost/basecamp");   
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
-
-
+seedDB();
 
 
 app.get("/", function(req,res){
@@ -50,10 +49,11 @@ app.get("/camps/new", function(req, res) {
 //SHOW - info about a camp
 app.get("/camps/:id", function(req,res){
     //get camp id
-    Camp.findById(req.params.id,function(err, camp){
+    Camp.findById(req.params.id).populate("comments").exec(function(err, camp){
         if(err){
             console.log(err);
-        } else{
+        } else {
+            console.log(camp);
             res.render("show", {camp:camp});
         }
     });
