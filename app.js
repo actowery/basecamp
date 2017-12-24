@@ -78,8 +78,8 @@ app.get("/camps/:id", function(req,res){
 //COMMENTS ROUTES
 //=================
 
-//NEW COMMENT - show form to create new camp comment
-app.get("/camps/:id/comments/new", function(req, res) {
+//NEW COMMENT - show form to create new camp comment only if logged in
+app.get("/camps/:id/comments/new", isLoggedIn,function(req, res) {
     Camp.findById(req.params.id, function(err, camp){
         if(err){
             console.loge(err);
@@ -90,7 +90,7 @@ app.get("/camps/:id/comments/new", function(req, res) {
 });
 
 //CREATE COMMENT - add new comment to camp DB
-app.post("/camps/:id/comments", function(req,res){
+app.post("/camps/:id/comments", isLoggedIn,function(req,res){
     //get data and add to array
     Camp.findById(req.params.id, function(err, camp) {
         if(err){
@@ -144,7 +144,18 @@ app.post("/login", passport.authenticate("local",
         failureRedirect:"/login"
     }),function(req, res) {
 });
-
+//logout
+app.get("/logout", function(req, res) {
+   res.logout();
+   res.redirect("/camps");
+});
+//logincheck middleware
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("baseCamp Server Has Started!");
