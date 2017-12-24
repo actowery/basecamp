@@ -18,17 +18,18 @@ router.post("/", isLoggedIn, function(req,res){
     //get data and add to array
     var name = req.body.name;
     var image = req.body.image;
-    var desc = req.body.description;
+    var desc = req.body.desc;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCamp = {name: name, image: image, description: desc, author:author};
+    var newCamp = {name: name, image: image, desc: desc, author:author};
     //create new camp and save to db
     Camp.create(newCamp,function(err, newlyCreated){
         if(err){
             console.log(err);
         } else{
+            console.log(newlyCreated);
             res.redirect("/camps");
         }
     });
@@ -52,18 +53,14 @@ router.get("/:id", function(req,res){
 });
 
 //EDIT Camp Route
-router.get("/:id/edit", isLoggedIn, function(req, res) {
+router.get("/:id/edit", checkOwnership, function(req, res) {
     Camp.findById(req.params.id, function(err, foundCamp){
-        if(err){
-            console.log(err);
-            res.redirect("/camps");
-        } else {
-            res.render("camps/edit", {camp: foundCamp}); 
-        }
+        if(err){/*meh*/}
+        res.render("camps/edit", {camp:foundCamp});
     });
 });
 //UPDATE Camp Route
-router.put("/:id", isLoggedIn, function(req, res) {
+router.put("/:id", checkOwnership, function(req, res) {
     //find and update 
     Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updated){
         if(err){
@@ -75,10 +72,10 @@ router.put("/:id", isLoggedIn, function(req, res) {
 });
 
 //DESTROY Camp Route
-router.delete("/:id", isLoggedIn, function(req,res){
+router.delete("/:id", function(req,res){
      Camp.findByIdAndRemove(req.params.id, function(err){
          if(err){}
-         res.redirect('/camps')
+         res.redirect('/camps');
      });
 });
 
@@ -89,5 +86,25 @@ function isLoggedIn(req, res, next){
     }
     res.redirect("/login");
 }
-
+//match permissions
+function checkOwnership(req, res, next){
+    if(req.isAuthenticated()){
+        Camp.findById(req.params.id, function(err, foundCamp){
+            if(err){
+                console.log(err);
+                res.redirect("back");
+            } else {
+                //check user ownership
+                if(foundCamp.author.id.equals(req.user._id)){
+                    next(); 
+                } else {
+                    res.redirect("back");
+                }
+            }
+        });        
+    } else {
+        res.redirect("back");
+    }
+}
+    
 module.exports = router;
