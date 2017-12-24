@@ -51,6 +51,37 @@ router.get("/:id", function(req,res){
     });
 });
 
+//EDIT Camp Route
+router.get("/:id/edit", isLoggedIn, function(req, res) {
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if(err){
+            console.log(err);
+            res.redirect("/camps");
+        } else {
+            res.render("camps/edit", {camp: foundCamp}); 
+        }
+    });
+});
+//UPDATE Camp Route
+router.put("/:id", isLoggedIn, function(req, res) {
+    //find and update 
+    Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updated){
+        if(err){
+            res.redirect("/camps");
+        } else {
+            res.redirect("/camps/"+req.params.id);
+        }
+    });
+});
+
+//DESTROY Camp Route
+router.delete("/:id", isLoggedIn, function(req,res){
+     Camp.findByIdAndRemove(req.params.id, function(err){
+         if(err){}
+         res.redirect('/camps')
+     });
+});
+
 //logincheck middleware, will DRY up later
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()) {

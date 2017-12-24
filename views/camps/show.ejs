@@ -14,10 +14,14 @@
                 <!--bootstrap4: img-responsive renamed to img-fluid-->
                 <img class ="img-fluid" src="<%= camp.image %>">
                 <div class="caption">
-                    <h4 class="float-right">$9.00/night</h4>
+                    <h4 class="float-right">$59.00/lift ticket</h4>
                     <h4><a href=""><%= camp.name %></a></h4>
                     <p><%=camp.desc%></p>
-                    <em><p>Submitted by<%=camp.author.username%> </p></em>
+                    <em><p>Submitted by <%=camp.author.username%> </p></em>
+                    <a class ="btn btn-warning" href="/camps/<%= camp._id %>/edit">Edit</a>
+                    <form action="/camps/<%= camp._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
             <div class="card card-body bg-light">
