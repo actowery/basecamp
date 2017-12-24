@@ -22,6 +22,7 @@ router.post("/", middleware.isLoggedIn,function(req,res){
     Camp.findById(req.params.id, function(err, camp) {
         if(err){
             console.log(err);
+            res.flash("error", "Something went wrong");
             res.redirect("/camps");
         } else {
             Comment.create(req.body.comment, function(err, comment){
@@ -35,6 +36,7 @@ router.post("/", middleware.isLoggedIn,function(req,res){
                     comment.save();
                     camp.comments.push(comment);
                     camp.save();
+                    req.flash("success", "Successfully added comment");
                     res.redirect("/camps/"+camp._id);
                 }
             });
@@ -68,12 +70,13 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res) 
 //DESTROY Camp Route
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res){
      Comment.findByIdAndRemove(req.params.comment_id, function(err){
-         if(err){
-             res.redirect("back");
-         } else {
-         res.redirect("/camps/"+req.params.id);
-         }
-     });
+        if(err){
+            res.redirect("back");
+        } else {
+        req.flash("success", "Successful comment deletion")
+        res.redirect("/camps/"+req.params.id);
+        }
+    });
 });
 
 

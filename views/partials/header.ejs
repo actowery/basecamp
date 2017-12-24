@@ -25,5 +25,21 @@
                 </div>
             </div>
         </nav>
-            
-    
+        
+        <!--container cuts off full length highlight-->
+        <div class="container"> 
+        <!--check if error is greater than 0 to keep the banner away since empty arrays are truthy-->
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div> 
+            <% } %>
+
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+
+        
