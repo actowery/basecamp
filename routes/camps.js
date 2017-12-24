@@ -14,11 +14,18 @@ router.get("/", function(req,res){
     });
 });
 //CREATE - add new camp to DB
-router.post("/", function(req,res){
+router.post("/", isLoggedIn, function(req,res){
     //get data and add to array
-    var newCamp = req.body.camp;
+    var name = req.body.name;
+    var image = req.body.image;
+    var desc = req.body.description;
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+    var newCamp = {name: name, image: image, description: desc, author:author};
     //create new camp and save to db
-    Camp.create(newCamp,function(err, camp){
+    Camp.create(newCamp,function(err, newlyCreated){
         if(err){
             console.log(err);
         } else{
@@ -28,7 +35,7 @@ router.post("/", function(req,res){
 
 });
 //NEW CAMP - show form to create new camp
-router.get("/new", function(req, res) {
+router.get("/new", isLoggedIn, function(req, res) {
    res.render("camps/new"); 
 });
 //SHOW - info about a camp
@@ -43,5 +50,13 @@ router.get("/:id", function(req,res){
         }
     });
 });
+
+//logincheck middleware, will DRY up later
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
