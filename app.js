@@ -18,7 +18,9 @@ mongoose.connect("mongodb://localhost/basecamp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname+"/public"));
-seedDB();
+
+//seed the DB
+//seedDB();
 
 //PASPORT CONFIG
 app.use(require("express-session")({
