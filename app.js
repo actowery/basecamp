@@ -2,17 +2,31 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
     Camp = require("./models/camp"),
     Comment = require("./models/comment"),
+    User = require("./models/user"),
     seedDB = require("./seeds");
     
-
+mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/basecamp");   
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname+"/public"));
 seedDB();
 
+//PASPORT CONFIG
+app.use(require("express-session")({
+    secret: "The rain in Spain falls mainly in the plain",
+    resave:false,
+    saveUninitialized:false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get("/", function(req,res){
     res.render("landing");
@@ -96,6 +110,42 @@ app.post("/camps/:id/comments", function(req,res){
     });
 
 });
+//====================
+//AUTH ROUTES
+//====================
+
+//SHOW form
+app.get("/register", function(req, res) {
+   res.render("register"); 
+});
+
+//signup logic
+app.post("/register", function(req, res) {
+    var newUser = new User({username:req.body.username});
+    User.register(newUser,req.body.password, function(err,user){
+        if(err){
+            console.log(err)
+            res.redirect("/register")
+        }
+        passport.authenticate("local")(req,res, function(){
+            res.redirect("/camps");
+        });
+    });
+});
+
+//show login form
+app.get("/login", function(req, res) {
+   res.render("login"); 
+});
+//handling login logic using middleware
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect:"/camps",
+        failureRedirect:"/login"
+    }),function(req, res) {
+});
+
+
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("baseCamp Server Has Started!");
 });
