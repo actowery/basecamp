@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var Camp = require("../models/camp")
+var Camp = require("../models/camp");
+var middleware = require("../middleware");
 
 //INDEX - Show all camp
 router.get("/", function(req,res){
@@ -14,7 +15,7 @@ router.get("/", function(req,res){
     });
 });
 //CREATE - add new camp to DB
-router.post("/", isLoggedIn, function(req,res){
+router.post("/", middleware.isLoggedIn, function(req,res){
     //get data and add to array
     var name = req.body.name;
     var image = req.body.image;
@@ -36,7 +37,7 @@ router.post("/", isLoggedIn, function(req,res){
 
 });
 //NEW CAMP - show form to create new camp
-router.get("/new", isLoggedIn, function(req, res) {
+router.get("/new", middleware.isLoggedIn, function(req, res) {
    res.render("camps/new"); 
 });
 //SHOW - info about a camp
@@ -53,14 +54,14 @@ router.get("/:id", function(req,res){
 });
 
 //EDIT Camp Route
-router.get("/:id/edit", checkOwnership, function(req, res) {
+router.get("/:id/edit", middleware.checkOwnership, function(req, res) {
     Camp.findById(req.params.id, function(err, foundCamp){
         if(err){/*meh*/}
         res.render("camps/edit", {camp:foundCamp});
     });
 });
 //UPDATE Camp Route
-router.put("/:id", checkOwnership, function(req, res) {
+router.put("/:id", middleware.checkOwnership, function(req, res) {
     //find and update 
     Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updated){
         if(err){
@@ -72,39 +73,14 @@ router.put("/:id", checkOwnership, function(req, res) {
 });
 
 //DESTROY Camp Route
-router.delete("/:id", function(req,res){
+router.delete("/:id", middleware.checkOwnership, function(req,res){
      Camp.findByIdAndRemove(req.params.id, function(err){
          if(err){}
          res.redirect('/camps');
      });
 });
 
-//logincheck middleware, will DRY up later
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
-//match permissions
-function checkOwnership(req, res, next){
-    if(req.isAuthenticated()){
-        Camp.findById(req.params.id, function(err, foundCamp){
-            if(err){
-                console.log(err);
-                res.redirect("back");
-            } else {
-                //check user ownership
-                if(foundCamp.author.id.equals(req.user._id)){
-                    next(); 
-                } else {
-                    res.redirect("back");
-                }
-            }
-        });        
-    } else {
-        res.redirect("back");
-    }
-}
+
+
     
 module.exports = router;

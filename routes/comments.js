@@ -3,9 +3,10 @@ var express = require("express");
 var router = express.Router({mergeParams:true}); //mergeParams allows access for comment routes
 var Camp = require("../models/camp");
 var Comment = require("../models/comment");
+var middleware = require("../middleware");
 
 //NEW COMMENT - show form to create new camp comment only if logged in
-router.get("/new", isLoggedIn,function(req, res) {
+router.get("/new", middleware.isLoggedIn,function(req, res) {
     Camp.findById(req.params.id, function(err, camp){
         if(err){
             console.loge(err);
@@ -16,7 +17,7 @@ router.get("/new", isLoggedIn,function(req, res) {
 });
 
 //CREATE COMMENT - add new comment to camp DB
-router.post("/", isLoggedIn,function(req,res){
+router.post("/", middleware.isLoggedIn,function(req,res){
     //get data and add to array
     Camp.findById(req.params.id, function(err, camp) {
         if(err){
@@ -41,11 +42,39 @@ router.post("/", isLoggedIn,function(req,res){
     });
 
 });
-//middleware to be refactored soon
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
+
+//EDIT Camp Route
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res) {
+    Comment.findById(req.params.comment_id, function(err, found) {
+        if(err){
+            res.redirect("back");
+        } else {
+            res.render("comments/edit", {camp_id:req.params.id, comment: found});
+        }
+    });
+});
+//UPDATE Camp Route
+router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res) {
+    //find and update 
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updated){
+        if(err){
+            res.redirect("back");
+        } else {
+            res.redirect("/camps/"+req.params.id);
+        }
+    });
+});
+
+//DESTROY Camp Route
+router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res){
+     Comment.findByIdAndRemove(req.params.comment_id, function(err){
+         if(err){
+             res.redirect("back");
+         } else {
+         res.redirect("/camps/"+req.params.id);
+         }
+     });
+});
+
+
 module.exports = router;

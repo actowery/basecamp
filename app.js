@@ -42,9 +42,10 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use(indexRoutes);
+app.use("/", indexRoutes);
+app.use("/camps", campRoutes);
 app.use("/camps/:id/comments", commentRoutes);
-app.use("/camps",campRoutes);
+
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("baseCamp Server Has Started!");
