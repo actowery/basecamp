@@ -28,6 +28,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//middleware for every route to check loged in user
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.get("/", function(req,res){
     res.render("landing");
 });
@@ -39,7 +45,7 @@ app.get("/camps", function(req,res){
         if(err){
             console.log(err);
         } else{
-            res.render("camps/index",{camps:allCamps});
+            res.render("camps/index",{camps:allCamps, currentUser:req.user});
         }
     });
 });
@@ -146,7 +152,7 @@ app.post("/login", passport.authenticate("local",
 });
 //logout
 app.get("/logout", function(req, res) {
-   res.logout();
+   req.logout();
    res.redirect("/camps");
 });
 //logincheck middleware
