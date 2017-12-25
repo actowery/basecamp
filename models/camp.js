@@ -6,6 +6,9 @@ var campSchema = new mongoose.Schema({
     price: String,
     image: String,
     desc: String,
+    location: String,
+    lat: Number,
+    lng: Number,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

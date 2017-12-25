@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Camp = require("../models/camp");
 var middleware = require("../middleware");
+var geocoder = require('geocoder');
 
 //INDEX - Show all camp
 router.get("/", function(req,res){
@@ -10,7 +11,7 @@ router.get("/", function(req,res){
         if(err){
             console.log(err);
         } else{
-            res.render("camps/index",{camps:allCamps, currentUser:req.user});
+            res.render("camps/index",{camps:allCamps});
         }
     });
 });
@@ -25,17 +26,23 @@ router.post("/", middleware.isLoggedIn, function(req,res){
         id: req.user._id,
         username: req.user.username
     };
-    var newCamp = {name: name, price:price, image: image, desc: desc, author:author};
-    //create new camp and save to db
-    Camp.create(newCamp,function(err, newlyCreated){
+  geocoder.geocode(req.body.location, function (err, data) {
+      if(err){}
+    var lat = data.results[0].geometry.location.lat;
+    var lng = data.results[0].geometry.location.lng;
+    var location = data.results[0].formatted_address;
+    var newCamp = {name: name, image: image, desc: desc, price: price, author:author, location: location, lat: lat, lng: lng};
+    // Create a new camp and save to DB
+    Camp.create(newCamp, function(err, newlyCreated){
         if(err){
             console.log(err);
-        } else{
+        } else {
+            //redirect back to camps page
             console.log(newlyCreated);
             res.redirect("/camps");
         }
     });
-
+  });
 });
 //NEW CAMP - show form to create new camp
 router.get("/new", middleware.isLoggedIn, function(req, res) {
