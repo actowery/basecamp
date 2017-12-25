@@ -14,7 +14,7 @@
                 <!--bootstrap4: img-responsive renamed to img-fluid-->
                 <img class ="img-fluid" src="<%= camp.image %>">
                 <div class="caption">
-                    <h4 class="float-right">$59.00/lift ticket</h4>
+                    <h4 class="float-right">$<%= camp.price %>/lift ticket</h4>
                     <h4><a href=""><%= camp.name %></a></h4>
                     <p><%=camp.desc%></p>
                     <em><p>Submitted by <%=camp.author.username%> </p></em>

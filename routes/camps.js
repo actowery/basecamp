@@ -18,13 +18,14 @@ router.get("/", function(req,res){
 router.post("/", middleware.isLoggedIn, function(req,res){
     //get data and add to array
     var name = req.body.name;
+    var price = req.body.price;
     var image = req.body.image;
     var desc = req.body.desc;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCamp = {name: name, image: image, desc: desc, author:author};
+    var newCamp = {name: name, price:price, image: image, desc: desc, author:author};
     //create new camp and save to db
     Camp.create(newCamp,function(err, newlyCreated){
         if(err){
