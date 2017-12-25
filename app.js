@@ -25,7 +25,8 @@ app.use(flash());
 
 //seed the DB
 //seedDB();
-
+//moment
+app.locals.moment = require('moment');
 //PASPORT CONFIG
 app.use(require("express-session")({
     secret: "The rain in Spain falls mainly in the plain",

@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 //saving id and username together, thanks noSQL!
 var commentSchema = mongoose.Schema({
     text: String,
+    createdAt: {type: Date, default: Date.now},
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
