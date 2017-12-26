@@ -16,8 +16,15 @@ var commentRoutes = require("./routes/comments"),
     indexRoutes = require("./routes/index");
     
 mongoose.Promise = global.Promise;
-//mongoose.connect("mongodb://localhost/basecamp"); 
-mongoose.connect("mongodb://base:base@ds131697.mlab.com:31697/basecamp")
+
+//connection options, export DATABASEURL=mongodb://localhost/basecamp in 
+//                                      =mongodb://base:base@ds131697.mlab.com:31697/basecamp in heroku    
+mongoose.connect("process.env.DATABASEURL"); 
+//old commection to heroku and c8
+// mongoose.connect("mongodb://base:base@ds131697.mlab.com:31697/basecamp");
+// mongoose.commect("=mongodb://localhost/basecamp");
+
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname+"/public"));
