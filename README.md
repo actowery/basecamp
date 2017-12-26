@@ -17,3 +17,16 @@ version control.
 
 
 
+Some techs/skills used in this project:
+
+HTML5/JS/CSS
+Bootstrap
+Express
+MongoDB
+Mongoose
+RESTful Routing
+CRUD
+Passport
+Middleware
+Git
+Heroku
