@@ -20,7 +20,7 @@ mongoose.Promise = global.Promise;
 //connection options, export DATABASEURL=mongodb://localhost/basecamp in 
 //                                      =mongodb://base:base@ds131697.mlab.com:31697/basecamp in heroku    
 mongoose.connect(process.env.DATABASEURL); 
-//old commection to heroku and c8
+//old commection to heroku and c9
 // mongoose.connect("mongodb://base:base@ds131697.mlab.com:31697/basecamp");
 // mongoose.commect("mongodb://localhost/basecamp");
 
