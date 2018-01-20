@@ -15,6 +15,6 @@
 }
 
 body {
-    background-image: url("/transback.png") no-repeat center fixed;
+    background-image: url("/transback.png") no-repeat;
     background-size: cover;
 }
