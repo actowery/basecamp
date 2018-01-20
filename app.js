@@ -22,7 +22,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASEURL); 
 //old commection to heroku and c9
 // mongoose.connect("mongodb://base:base@ds131697.mlab.com:31697/basecamp");
-// mongoose.commect("mongodb://localhost/basecamp");
+// mongoose.connect("mongodb://localhost/basecamp");
 
 
 app.use(bodyParser.urlencoded({extended: true}));
