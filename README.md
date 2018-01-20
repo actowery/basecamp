@@ -15,18 +15,29 @@ This is a Yelp Clone that focuses on honing skills in RESTful conventions, API's
 and styling templates like bootstrap, along with getting comfortable with 
 version control.
 
+NOTE: The site is noy launched using heroku/mLab/AWS here: https://whispering-spire-41103.herokuapp.com/
 
 
 Some techs/skills used in this project:
 
 HTML5/JS/CSS
+
 Bootstrap
+
 Express
+
 MongoDB
+
 Mongoose
+
 RESTful Routing
+
 CRUD
+
 Passport
+
 Middleware
+
 Git
+
 Heroku
